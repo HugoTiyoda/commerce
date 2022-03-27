@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Data
@@ -30,6 +32,18 @@ public class Purchase extends GenerateID {
     @ManyToOne
     @JoinColumn(name = "DELIVERY_ADRESS_ID")
     private Adress deliveryAdress;
+
+
+    @OneToMany(mappedBy = "id.purchase")
+    private Set<ProductPurchased> productPurchaseds= new HashSet<>();
+
+    public Set<ProductPurchased> getProductPurchaseds() {
+        return productPurchaseds;
+    }
+
+    public void setProductPurchaseds(Set<ProductPurchased> productPurchaseds) {
+        this.productPurchaseds = productPurchaseds;
+    }
 
     @Override
     public boolean equals(Object o) {

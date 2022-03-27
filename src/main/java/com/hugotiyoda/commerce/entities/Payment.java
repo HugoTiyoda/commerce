@@ -13,7 +13,7 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Payment {
+public abstract class Payment {
     @Id
     private Integer id;
 

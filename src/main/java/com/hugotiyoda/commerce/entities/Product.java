@@ -5,13 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @Data
@@ -28,6 +23,25 @@ public class Product extends GenerateID{
             joinColumns = @JoinColumn(name = "CATEGORY_ID")
             , inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID"))
     private List<Category> categories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "id.product")
+    private Set<ProductPurchased> productPurchaseds= new HashSet<>();
+
+    public Set<ProductPurchased> getProductPurchaseds() {
+        return productPurchaseds;
+    }
+
+    public void setProductPurchaseds(Set<ProductPurchased> productPurchaseds) {
+        this.productPurchaseds = productPurchaseds;
+    }
+
+    public List<Purchase> getPurchases(){
+        List<Purchase> list = new ArrayList<>();
+        for (ProductPurchased x : productPurchaseds ){
+            list.add(x.getPurchase());
+        }
+        return list;
+    }
 
     @Override
     public boolean equals(Object o) {
