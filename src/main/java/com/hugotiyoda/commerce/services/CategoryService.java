@@ -8,22 +8,34 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class categoryService {
+public class CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
 
-    //all
-    public Page<Category> getAllCategories(Pageable pageable) {
+    //getAll
+    public Page<Category> findAllCategory(Pageable pageable) {
         return categoryRepository.findAll(pageable);
     }
 
+    //getByID
+    public Category findCategoryByID(Long categoryId) {
 
-    //byId
-    public Category getCaregoryById(Long categoryId) {
         return categoryRepository.findById(categoryId).orElse(null);
     }
 
-    //
+    //post
+    public Category insertNewCategory(Category category) {
+        return categoryRepository.save(category);
+    }
 
+    //update
+    public Category updateCategory(Category category) {
+        return categoryRepository.save(category);
+    }
+
+    //delete
+    public void deleteCategory(Long categoryId) {
+        categoryRepository.deleteById(categoryId);
+    }
 }

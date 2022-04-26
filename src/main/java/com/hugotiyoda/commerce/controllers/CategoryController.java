@@ -32,15 +32,21 @@ public class CategoryController {
     }
 
     @PutMapping("/{categoryId}")
-    public ResponseEntity<Void> updateCategory(@PathVariable Long categoryId, @RequestBody Category category) {
-        try {
-            category.setId(categoryId);
-            categoryService.updateCategory(category);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Void> updateCategory(@PathVariable Long categoryId,
+                                               @RequestBody Category category) {
+
+        category.setId(categoryId);
+        categoryService.updateCategory(category);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId) {
+
+        categoryService.deleteCategory(categoryId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+    }
 
 }
