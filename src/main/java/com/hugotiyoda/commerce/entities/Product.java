@@ -1,29 +1,34 @@
 package com.hugotiyoda.commerce.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product extends GenerateID{
-
+public class Product implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private Double price;
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "CATEGORY_PRODUCT",
             joinColumns = @JoinColumn(name = "CATEGORY_ID")
             , inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID"))
     private List<Category> categories = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "id.product")
     private Set<ProductPurchased> productPurchaseds= new HashSet<>();
 
@@ -35,6 +40,7 @@ public class Product extends GenerateID{
         this.productPurchaseds = productPurchaseds;
     }
 
+    @JsonIgnore
     public List<Purchase> getPurchases(){
         List<Purchase> list = new ArrayList<>();
         for (ProductPurchased x : productPurchaseds ){

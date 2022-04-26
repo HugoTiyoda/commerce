@@ -1,12 +1,17 @@
 package com.hugotiyoda.commerce.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import java.io.Serializable;
 
 @Entity
-public class ProductPurchased {
+public class ProductPurchased implements Serializable {
+    private static final long serialVersionUID = 1L;
 
 
+    @JsonIgnore
     @EmbeddedId
     private PrimaryKeyProductPurchased id = new PrimaryKeyProductPurchased();
 
@@ -30,10 +35,12 @@ public class ProductPurchased {
         return id;
     }
 
+    @JsonIgnore
     public Purchase getPurchase() {
         return id.getPurchase();
     }
 
+ //tudo q copmeça com get ele tenta serializar
     public Product getProduct() {
         return id.getProduct();
     }

@@ -1,26 +1,31 @@
 package com.hugotiyoda.commerce.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hugotiyoda.commerce.enums.ClientType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Client extends GenerateID {
+public class Client implements Serializable {
+    private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String email;
     private String registrationNumber;
     Integer clientType;
 
-    @JsonManagedReference
+
     @OneToMany(mappedBy = "clientAdress")
     private List<Adress> adresses = new ArrayList<>();
 
@@ -28,6 +33,7 @@ public class Client extends GenerateID {
     @CollectionTable(name = "PHONES")
     private Set<String> phones = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "clientOrder")
     private List<Purchase> ordersList = new ArrayList<>();
 
